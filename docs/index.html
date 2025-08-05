@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Tools • GitHub Pages</title>
+  <meta name="description" content="A simple, fast directory of my GitHub tools." />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{
+      --bg: #ffffff;
+      --fg: #1f2328;
+      --muted: #5d6b78;
+      --card: #f6f8fa;
+      --border: #e6e8eb;
+      --link: #0969da;
+      --ring: 0 0 0 3px rgba(9,105,218,.15);
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.06);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #0d1117;
+        --fg: #e6edf3;
+        --muted: #8b949e;
+        --card: #161b22;
+        --border: #30363d;
+        --link: #79c0ff;
+        --ring: 0 0 0 3px rgba(121,192,255,.2);
+        --shadow: 0 6px 24px rgba(0,0,0,.35);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 48px;
+    }
+    header{
+      display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(22px, 3.2vw, 28px);
+      letter-spacing: .2px;
+    }
+    .muted{ color: var(--muted); }
+    .toolbar{
+      display:flex; gap:10px; align-items:center; width:100%;
+    }
+    @media(min-width:700px){ .toolbar{ width:auto; } }
+    .search{
+      position:relative; flex:1 1 420px; display:flex; align-items:center;
+      background: var(--card); border:1px solid var(--border); border-radius: 999px;
+      padding: 10px 14px; gap:10px; box-shadow: inset 0 1px 0 rgba(0,0,0,.02);
+    }
+    .search input{
+      width:100%; border:0; outline:0; background:transparent; color:var(--fg);
+      font-size:14px;
+    }
+    .kbd{
+      font-size:12px; padding:2px 6px; border:1px solid var(--border); border-bottom-width:2px;
+      border-radius:6px; background: var(--bg); color: var(--muted);
+    }
+    .toggle{
+      border:1px solid var(--border); background:var(--card); color:var(--fg);
+      padding:10px 12px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    }
+    .toggle:focus-visible{ outline:none; box-shadow: var(--ring); }
+    main{ margin-top: 10px; }
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .card:focus-within{ box-shadow: var(--shadow), var(--ring); }
+    .card:hover{ transform: translateY(-2px); }
+    .card h3{
+      margin: 0 0 6px; font-size: 16px; line-height:1.35;
+    }
+    .card p{
+      margin: 0 0 12px; color: var(--muted); font-size: 14px;
+      min-height: 2.8em; /* keep rows even */
+    }
+    .card a{
+      display:inline-block; text-decoration:none; font-weight:600; color: var(--link);
+      border:1px solid var(--border); padding:8px 10px; border-radius:10px;
+      background: var(--bg);
+    }
+    .card a:focus-visible{ outline:none; box-shadow: var(--ring); }
+    .empty{
+      display:none; text-align:center; padding:40px 10px; color:var(--muted);
+      border:1px dashed var(--border); border-radius: var(--radius); margin-top: 12px;
+    }
+    footer{ margin-top: 32px; color: var(--muted); font-size: 13px; text-align:center; }
+    .visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>My Tools</h1>
+        <div class="muted">Quick access to Jack's created tools</div>
+      </div>
+      <div class="toolbar" role="search">
+        <div class="search" aria-label="Search tools">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M10 4a6 6 0 1 1 0 12A6 6 0 0 1 10 4m0-2a8 8 0 0 0 0 16c1.85 0 3.55-.63 4.9-1.69l4.4 4.4 1.4-1.42-4.36-4.36A7.98 7.98 0 0 0 18 10a8 8 0 0 0-8-8"></path></svg>
+          <input id="q" type="search" placeholder="Search tools…" aria-label="Search tools" />
+          <span class="kbd" aria-hidden="true">/</span>
+        </div>
+        <button id="themeToggle" class="toggle" type="button" aria-label="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">🌗</span><span class="visually-hidden">Toggle theme</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section id="grid" class="grid" aria-live="polite" aria-busy="false"></section>
+      <div id="empty" class="empty">No tools match your search.</div>
+    </main>
+
+    <footer>
+      Press <b>/</b> to jump to search
+    </footer>
+  </div>
+
+  <script>
+    // ---- DATA: add/edit tools here -----------------------------------------
+    const tools = [
+      {
+        title: "Similarity Tool",
+        url: "https://liblikas90.github.io/similarity-tool",
+        description: "Automated checks for XTM xlf files.",
+        tags: ["text", "compare", "similarity"]
+      },
+      {
+        title: "Divisional Comparison",
+        url: "https://liblikas90.github.io/similarity-tool/divisional-comparison",
+        description: "Compare B1 patents to check how similar they are to each other.",
+        tags: ["compare", "division"]
+      },
+      {
+        title: "Offline Word Count",
+        url: "https://liblikas90.github.io/similarity-tool/offline-word-count",
+        description: "Perform word count for clients where platform cannot.",
+        tags: ["text", "word count", "offline"]
+      },
+    ];
+    // ------------------------------------------------------------------------
+
+    const elGrid = document.getElementById('grid');
+    const elEmpty = document.getElementById('empty');
+    const elQ = document.getElementById('q');
+
+    // Render cards
+    function render(list){
+      elGrid.setAttribute('aria-busy', 'true');
+      elGrid.innerHTML = '';
+      list.forEach(t => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${escapeHTML(t.title)}</h3>
+          <p>${escapeHTML(t.description || '')}</p>
+          <a href="${t.url}" target="_blank" rel="noopener" aria-label="Open ${escapeHTML(t.title)}">Open</a>
+        `;
+        elGrid.appendChild(card);
+      });
+      elGrid.setAttribute('aria-busy', 'false');
+      elEmpty.style.display = list.length ? 'none' : 'block';
+    }
+
+    // Simple search (title/desc/tags)
+    function filter(q){
+      const s = q.trim().toLowerCase();
+      if(!s) return tools;
+      return tools.filter(t => {
+        const hay = [t.title, t.description, ...(t.tags||[])].join(' ').toLowerCase();
+        return hay.includes(s);
+      });
+    }
+
+    // Escape HTML to avoid injection in titles/descriptions
+    function escapeHTML(str){
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[m]));
+    }
+
+    // Search listeners
+    elQ.addEventListener('input', () => render(filter(elQ.value)));
+    document.addEventListener('keydown', (e) => {
+      if(e.key === '/' && document.activeElement !== elQ){
+        e.preventDefault(); elQ.focus();
+      }
+    });
+
+    // Theme toggle (respects system; remembers choice)
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    const THEME_KEY = 'site-theme'; // 'light' | 'dark' | null
+    const getSystemPrefersDark = () =>
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme(mode){ // mode: 'light' | 'dark' | null (=system)
+      if(mode === 'light'){ document.documentElement.style.colorScheme = 'light'; }
+      else if(mode === 'dark'){ document.documentElement.style.colorScheme = 'dark'; }
+      else { document.documentElement.style.colorScheme = getSystemPrefersDark() ? 'dark' : 'light'; }
+      themeIcon.textContent = document.documentElement.style.colorScheme === 'dark' ? '🌙' : '☀️';
+    }
+    function setTheme(mode){
+      localStorage.setItem(THEME_KEY, mode ?? '');
+      applyTheme(mode);
+    }
+    function initTheme(){
+      const saved = localStorage.getItem(THEME_KEY);
+      applyTheme(saved || null);
+    }
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.style.colorScheme;
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Init
+    initTheme();
+    render(tools);
+  </script>
+</body>
+</html>
