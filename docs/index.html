@@ -17,6 +17,12 @@
       --ring: 0 0 0 3px rgba(9,105,218,.15);
       --radius: 14px;
       --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.06);
+      --badge: #e9f2ff;
+      --badge-text:#074ea3;
+      --chip:#eef2f6;
+      --chip-border:#e3e7eb;
+      --chip-active:#dbe9ff;
+      --chip-active-border:#bcd3ff;
     }
     @media (prefers-color-scheme: dark){
       :root{
@@ -28,6 +34,9 @@
         --link: #79c0ff;
         --ring: 0 0 0 3px rgba(121,192,255,.2);
         --shadow: 0 6px 24px rgba(0,0,0,.35);
+        --badge:#0f305a; --badge-text:#b9d7ff;
+        --chip:#111820; --chip-border:#2b3139;
+        --chip-active:#0d335e; --chip-active-border:#2a5c9d;
       }
     }
     *{box-sizing:border-box}
@@ -38,71 +47,66 @@
       background: var(--bg);
       color: var(--fg);
     }
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 16px 48px;
-    }
-    header{
-      display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-    h1{
-      margin:0;
-      font-size: clamp(22px, 3.2vw, 28px);
-      letter-spacing: .2px;
-    }
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 28px 16px 48px; }
+    header{ display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:16px; }
+    h1{ margin:0; font-size: clamp(22px, 3.2vw, 28px); letter-spacing: .2px; }
     .muted{ color: var(--muted); }
-    .toolbar{
-      display:flex; gap:10px; align-items:center; width:100%;
-    }
+    .toolbar{ display:flex; gap:10px; align-items:center; width:100%; }
     @media(min-width:700px){ .toolbar{ width:auto; } }
     .search{
       position:relative; flex:1 1 420px; display:flex; align-items:center;
       background: var(--card); border:1px solid var(--border); border-radius: 999px;
       padding: 10px 14px; gap:10px; box-shadow: inset 0 1px 0 rgba(0,0,0,.02);
     }
-    .search input{
-      width:100%; border:0; outline:0; background:transparent; color:var(--fg);
-      font-size:14px;
-    }
-    .kbd{
-      font-size:12px; padding:2px 6px; border:1px solid var(--border); border-bottom-width:2px;
-      border-radius:6px; background: var(--bg); color: var(--muted);
-    }
+    .search input{ width:100%; border:0; outline:0; background:transparent; color:var(--fg); font-size:14px; }
+    .kbd{ font-size:12px; padding:2px 6px; border:1px solid var(--border); border-bottom-width:2px; border-radius:6px; background: var(--bg); color: var(--muted); }
     .toggle{
       border:1px solid var(--border); background:var(--card); color:var(--fg);
       padding:10px 12px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
     }
     .toggle:focus-visible{ outline:none; box-shadow: var(--ring); }
-    main{ margin-top: 10px; }
-    .grid{
-      display:grid; gap:14px;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+    .filters{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .chip{
+      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
+      background:var(--chip); border:1px solid var(--chip-border); font-size:13px; cursor:pointer;
+      transition: background .15s, border-color .15s, transform .05s;
+      user-select:none;
     }
+    .chip[data-active="true"]{ background:var(--chip-active); border-color:var(--chip-active-border); }
+    .chip:focus-visible{ outline:none; box-shadow: var(--ring); }
+    .chip:active{ transform: translateY(1px); }
+
+    main{ margin-top: 12px; }
+    .meta{ margin: 8px 2px 14px; color: var(--muted); font-size: 13px; }
+
+    .grid{ display:grid; gap:14px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
     .card{
+      position:relative;
       background: var(--card);
       border:1px solid var(--border);
       border-radius: var(--radius);
       padding:16px;
       box-shadow: var(--shadow);
       transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      outline: none;
     }
     .card:focus-within{ box-shadow: var(--shadow), var(--ring); }
     .card:hover{ transform: translateY(-2px); }
-    .card h3{
-      margin: 0 0 6px; font-size: 16px; line-height:1.35;
+    .badge{
+      position:absolute; top:10px; right:10px;
+      background: var(--badge); color: var(--badge-text);
+      border-radius: 999px; font-size: 12px; padding:4px 8px; font-weight:600;
     }
-    .card p{
-      margin: 0 0 12px; color: var(--muted); font-size: 14px;
-      min-height: 2.8em; /* keep rows even */
+    .card h3{ margin: 0 0 6px; font-size: 16px; line-height:1.35; }
+    .card p{ margin: 0 0 12px; color: var(--muted); font-size: 14px; min-height: 2.8em; }
+    .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+    .card a, .btn{
+      display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-weight:600; color: var(--link);
+      border:1px solid var(--border); padding:8px 10px; border-radius:10px; background: var(--bg); cursor:pointer;
     }
-    .card a{
-      display:inline-block; text-decoration:none; font-weight:600; color: var(--link);
-      border:1px solid var(--border); padding:8px 10px; border-radius:10px;
-      background: var(--bg);
-    }
-    .card a:focus-visible{ outline:none; box-shadow: var(--ring); }
+    .btn:focus-visible, .card a:focus-visible{ outline:none; box-shadow: var(--ring); }
+    .btn.secondary{ color: var(--fg); }
     .empty{
       display:none; text-align:center; padding:40px 10px; color:var(--muted);
       border:1px dashed var(--border); border-radius: var(--radius); margin-top: 12px;
@@ -128,83 +132,190 @@
           <span id="themeIcon" aria-hidden="true">🌗</span><span class="visually-hidden">Toggle theme</span>
         </button>
       </div>
+
+      <!-- Quick filters (auto-generated from tags) -->
+      <div id="filters" class="filters" aria-label="Quick filters"></div>
     </header>
 
     <main>
+      <div class="meta"><span id="count">0</span> tool(s)</div>
       <section id="grid" class="grid" aria-live="polite" aria-busy="false"></section>
       <div id="empty" class="empty">No tools match your search.</div>
     </main>
 
-    <footer>
-      Press <b>/</b> to jump to search
-    </footer>
+    <footer>Press <b>/</b> to jump to search • Use arrow keys to move between cards</footer>
   </div>
 
   <script>
     // ---- DATA: add/edit tools here -----------------------------------------
     const tools = [
       {
+        title: "VAL XTM Hub",
+        url: "https://liblikas90.github.io/val-xtm-hub",
+        description: "Fetch project statistics and download Excel/ZIP files for XTM projects.",
+        tags: ["xtm", "projects", "stats", "downloads"],
+        featured: true
+      },
+      {
         title: "Similarity Tool",
         url: "https://liblikas90.github.io/similarity-tool",
         description: "Automated checks for XTM xlf files.",
-        tags: ["text", "compare", "similarity"]
+        tags: ["text", "compare", "similarity"],
+        featured: true
       },
       {
         title: "Divisional Comparison",
         url: "https://liblikas90.github.io/divisional-comparison",
         description: "Compare B1 patents to check how similar they are to each other.",
-        tags: ["compare", "division"]
+        tags: ["compare", "division", "patents"]
       },
       {
         title: "Offline Word Count",
         url: "https://liblikas90.github.io/offline-word-count",
         description: "Perform word count for clients where platform cannot.",
         tags: ["text", "word count", "offline"]
-      },
+      }
     ];
     // ------------------------------------------------------------------------
 
     const elGrid = document.getElementById('grid');
     const elEmpty = document.getElementById('empty');
     const elQ = document.getElementById('q');
+    const elFilters = document.getElementById('filters');
+    const elCount = document.getElementById('count');
+
+    // Build unique tag list for chips (top 8 by frequency)
+    function buildTagChips(items){
+      const counts = {};
+      items.forEach(t => (t.tags||[]).forEach(tag => counts[tag]=(counts[tag]||0)+1));
+      const tags = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([name])=>name);
+      elFilters.innerHTML = '';
+      tags.forEach(tag=>{
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip';
+        chip.textContent = tag;
+        chip.setAttribute('data-active','false');
+        chip.addEventListener('click', ()=>{
+          chip.setAttribute('data-active', chip.getAttribute('data-active')==='true' ? 'false' : 'true');
+          render(applyFilters());
+        });
+        elFilters.appendChild(chip);
+      });
+    }
+
+    function activeTags(){
+      return Array.from(elFilters.querySelectorAll('.chip[data-active="true"]')).map(x=>x.textContent);
+    }
 
     // Render cards
     function render(list){
       elGrid.setAttribute('aria-busy', 'true');
       elGrid.innerHTML = '';
-      list.forEach(t => {
+      // featured first
+      list.sort((a,b)=>(b.featured?1:0)-(a.featured?1:0) || a.title.localeCompare(b.title));
+      list.forEach((t, idx) => {
         const card = document.createElement('article');
         card.className = 'card';
+        card.tabIndex = 0; // keyboard focus
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-label', t.title);
+
         card.innerHTML = `
+          ${t.featured ? '<span class="badge" aria-label="Featured">Featured</span>' : ''}
           <h3>${escapeHTML(t.title)}</h3>
           <p>${escapeHTML(t.description || '')}</p>
-          <a href="${t.url}" target="_blank" rel="noopener" aria-label="Open ${escapeHTML(t.title)}">Open</a>
+          <div class="actions">
+            <a href="${t.url}" target="_blank" rel="noopener" aria-label="Open ${escapeHTML(t.title)}">🔗 Open</a>
+            <button class="btn secondary" type="button" data-copy="${encodeURI(t.url)}" aria-label="Copy link to ${escapeHTML(t.title)}">📋 Copy link</button>
+          </div>
         `;
+
+        // Copy link action
+        const copyBtn = card.querySelector('[data-copy]');
+        copyBtn.addEventListener('click', async () => {
+          const url = decodeURI(copyBtn.getAttribute('data-copy'));
+          try {
+            await navigator.clipboard.writeText(url);
+            toast('Link copied');
+          } catch {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = url; document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); ta.remove();
+            toast('Link copied');
+          }
+        });
+
+        // Keyboard: Enter/Space to open, arrows to navigate
+        card.addEventListener('keydown', (e) => {
+          const link = card.querySelector('a');
+          if ((e.key === 'Enter' || e.key === ' ') && link){
+            e.preventDefault();
+            link.click();
+          }
+          const cards = Array.from(document.querySelectorAll('.card'));
+          const i = cards.indexOf(card);
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+            e.preventDefault(); (cards[i+1] || cards[0]).focus();
+          }
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+            e.preventDefault(); (cards[i-1] || cards[cards.length-1]).focus();
+          }
+        });
+
         elGrid.appendChild(card);
       });
       elGrid.setAttribute('aria-busy', 'false');
       elEmpty.style.display = list.length ? 'none' : 'block';
+      elCount.textContent = list.length;
     }
 
-    // Simple search (title/desc/tags)
-    function filter(q){
-      const s = q.trim().toLowerCase();
-      if(!s) return tools;
+    // Search + tag filter
+    function applyFilters(){
+      const q = (elQ.value || '').trim().toLowerCase();
+      const tags = activeTags();
       return tools.filter(t => {
         const hay = [t.title, t.description, ...(t.tags||[])].join(' ').toLowerCase();
-        return hay.includes(s);
+        const qOk = !q || hay.includes(q);
+        const tagOk = !tags.length || (t.tags||[]).some(tag => tags.includes(tag));
+        return qOk && tagOk;
       });
     }
 
     // Escape HTML to avoid injection in titles/descriptions
     function escapeHTML(str){
-      return String(str).replace(/[&<>"']/g, m => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
-      }[m]));
+      return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+
+    // Little toast (non-blocking feedback)
+    let toastTimer;
+    function toast(msg){
+      clearTimeout(toastTimer);
+      let el = document.getElementById('toast');
+      if(!el){
+        el = document.createElement('div');
+        el.id = 'toast';
+        el.style.position = 'fixed';
+        el.style.left = '50%';
+        el.style.bottom = '24px';
+        el.style.transform = 'translateX(-50%)';
+        el.style.background = 'var(--card)';
+        el.style.border = '1px solid var(--border)';
+        el.style.boxShadow = 'var(--shadow)';
+        el.style.padding = '8px 12px';
+        el.style.borderRadius = '10px';
+        el.style.fontSize = '13px';
+        el.style.zIndex = '999';
+        document.body.appendChild(el);
+      }
+      el.textContent = msg;
+      el.style.opacity = '1';
+      toastTimer = setTimeout(()=>{ el.style.opacity = '0'; }, 1200);
     }
 
     // Search listeners
-    elQ.addEventListener('input', () => render(filter(elQ.value)));
+    elQ.addEventListener('input', () => render(applyFilters()));
     document.addEventListener('keydown', (e) => {
       if(e.key === '/' && document.activeElement !== elQ){
         e.preventDefault(); elQ.focus();
@@ -240,6 +351,7 @@
 
     // Init
     initTheme();
+    buildTagChips(tools);
     render(tools);
   </script>
 </body>
